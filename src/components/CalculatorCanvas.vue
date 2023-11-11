@@ -59,9 +59,28 @@
 .value {
   color: aliceblue;
   text-align: end;
+  overflow: auto;
+  scroll-behavior: smooth;
+  padding: 40px 35px 0 20px;
+  font-size: min(80px, 10vw);
+}
+.value::-webkit-scrollbar {
+  width: 12px; /* width of the scrollbar */
+  height: 7px;
+}
 
-  margin: 40px 40px 0 0;
-  font-size: 80px;
+.value::-webkit-scrollbar-track {
+  background: #000000; /* color of the track */
+  border-radius: 10px;
+}
+
+.value::-webkit-scrollbar-thumb {
+  background: #494848; /* color of the thumb */
+  border-radius: 10px;
+}
+
+.value::-webkit-scrollbar-thumb:hover {
+  background: #727272; /* color of the thumb on hover */
 }
 
 .keyboard {
@@ -144,6 +163,7 @@ export default {
     };
   },
   methods: {
+    // Method to determine the CSS class for a button based on its index
     getClass(index) {
       const specialButtons = [4, 8, 12, 16];
       if (index < 3) {
@@ -156,7 +176,7 @@ export default {
         return;
       }
     },
-
+    // Method to handle button clicks
     handleClick(button) {
       if (button === "=") {
         this.calculate();
@@ -176,6 +196,8 @@ export default {
         this.handleNumber(button);
       }
     },
+
+    // Method to handle number buttons
     handleNumber(button) {
       if (this.waitingForSecondOperand === true) {
         this.displayValue = button;
@@ -188,6 +210,7 @@ export default {
       this.displayValue = numericValue.toLocaleString();
     },
 
+    // Method to handle operator buttons
     handleOperator(button) {
       if (button === "." && !this.displayValue.includes(".")) {
         this.displayValue = this.displayValue + ".";
@@ -206,6 +229,8 @@ export default {
       this.operator = button;
       this.waitingForSecondOperand = true;
     },
+
+    // Method to perform the calculation based on the operator
     calculate() {
       let result;
 
@@ -232,6 +257,7 @@ export default {
       console.log(secondOperand, this.firstOperand, this.operator);
     },
 
+    // Method to clear all calculator values
     clearAll() {
       this.firstOperand = null;
       this.waitingForSecondOperand = false;
