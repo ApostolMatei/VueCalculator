@@ -42,6 +42,7 @@
   justify-content: space-between;
   height: 752px;
   width: 393px;
+  /* padding: 25px; */
   font-family: sans-serif;
 
   background-color: rgb(0, 0, 0);
@@ -49,20 +50,22 @@
 }
 .mathtable {
   display: flex;
-  height: 100px;
+  /* height: 100px; */
+
   justify-content: space-between;
   margin: 0 20px 0 20px;
-  padding: 15px;
+  padding: 15px 20px 100px 20px;
   overflow: hidden;
   color: aliceblue;
 }
 .value {
   color: aliceblue;
   text-align: end;
-  overflow: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 40px 35px 0 20px;
-  font-size: min(80px, 10vw);
+  padding: 40px 38px 0 20px;
+  font-size: 80px;
 }
 .value::-webkit-scrollbar {
   width: 12px; /* width of the scrollbar */
@@ -128,6 +131,26 @@
 .keyboard .button:nth-child(19) {
   background-color: #f1a33c;
 }
+@media screen and (max-width: 420px) {
+  /* Adjust styles for screens smaller than 600px */
+  .calculator {
+    height: 630px;
+    width: 350px;
+  }
+
+  .value {
+    font-size: 70px;
+    padding-bottom: 40px;
+  }
+  .keyboard {
+    padding: 0px 20px 20px 20px;
+    gap: 5px;
+  }
+  .button {
+    height: 70px;
+    font-size: 15px;
+  }
+}
 </style>
 
 <script>
@@ -162,7 +185,21 @@ export default {
       ],
     };
   },
+  mounted() {
+    // Add an event listener to the document for touchstart
+    document.addEventListener("touchstart", this.handleTouchStart);
+  },
+  beforeUnmount() {
+    // Remove the event listener when the component is destroyed
+    document.removeEventListener("touchstart", this.handleTouchStart);
+  },
+
   methods: {
+    handleTouchStart(event) {
+      // Prevent the default action for all other elements (disable double-tap)
+      event.preventDefault();
+    },
+
     // Method to determine the CSS class for a button based on its index
     getClass(index) {
       const specialButtons = [4, 8, 12, 16];
